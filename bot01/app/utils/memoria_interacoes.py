@@ -13,6 +13,7 @@ REDIS_HOST = getenv("REDIS_HOST")
 REDIS_PORT = int(getenv("REDIS_PORT"))
 REDIS_DB = int(getenv("REDIS_DB"))
 
+
 def verifica_ultima_interacao(user_id: int, interacao: str) -> bool:
     try:
         with redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB) as r:
@@ -24,9 +25,10 @@ def verifica_ultima_interacao(user_id: int, interacao: str) -> bool:
         execucoes_bot("1002", f"{erro}")
         return True
 
+
 def registra_ultima_interacao(user_id: int, interacao: str) -> bool:
     try:
-        with redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB) as r:            
+        with redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB) as r:
             tempo_de_vida_horas = 24
             tempo_de_vida = timedelta(hours=tempo_de_vida_horas)
             r.setex(f"{user_id}_{interacao}", tempo_de_vida, "True")

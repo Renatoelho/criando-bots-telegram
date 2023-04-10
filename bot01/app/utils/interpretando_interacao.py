@@ -12,6 +12,7 @@ load_dotenv()
 
 TOKEN_CHATGPT3 = getenv("TOKEN_CHATGPT3", None)
 
+
 def interpretando_interacao(interacao: str) -> str:
     try:
         comando_interacao = (

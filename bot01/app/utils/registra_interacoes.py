@@ -9,25 +9,41 @@ from uuid import NAMESPACE_OID
 
 caminho_interacoes = f"{Path(abspath(__file__)).parent.parent}/interacoes"
 
+
 def _cria_diretorio(caminho: str) -> bool:
     try:
         Path(caminho).mkdir(parents=True, exist_ok=True)
         return True
     except Exception as _:
+        _ = _
         return False
+
 
 def _registra_interacoes(interacao: str) -> bool:
     try:
-        nome_arquivo = f"interacao-bot-{uuid5(NAMESPACE_OID, str(datetime.now().strftime('%Y%m%d%H%M%S%s')))}.json"
+        code_uuid5 = (
+            uuid5(
+                NAMESPACE_OID,
+                str(datetime.now().strftime('%Y%m%d%H%M%S%s'))
+            )
+        )
+        nome_arquivo = f"interacao-bot-{code_uuid5}.json"
         _cria_diretorio(caminho_interacoes)
         with open(f"{caminho_interacoes}/{nome_arquivo}", "w") as arquivo:
             dump(interacao, arquivo)
         return True
     except Exception as _:
+        _ = _
         return False
+
 
 def acessos_bot(message: object) -> bool:
     try:
+        converte_timestamp = (
+            datetime
+            .fromtimestamp(message.date)
+            .strftime('%Y-%m-%d %H:%M:%S')
+        )
         registro_interacoes = (
             {
                 "origin": "ACESSOS",
@@ -40,14 +56,16 @@ def acessos_bot(message: object) -> bool:
                 "language_code": message.from_user.language_code,
                 "type": message.chat.type,
                 "is_premium": message.from_user.is_premium,
-                "date_time": datetime.fromtimestamp(message.date).strftime('%Y-%m-%d %H:%M:%S'),
+                "date_time": converte_timestamp,
                 "text": message.text
             }
         )
         _registra_interacoes(registro_interacoes)
         return True
     except Exception as _:
+        _ = _
         return False
+
 
 def execucoes_bot(code_erro: str, message_erro: str) -> bool:
     try:
@@ -62,4 +80,5 @@ def execucoes_bot(code_erro: str, message_erro: str) -> bool:
         _registra_interacoes(registro_interacoes)
         return True
     except Exception as _:
+        _ = _
         return False
