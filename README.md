@@ -22,6 +22,7 @@
 
 - Redis 7.0.10
 
+> ***Importante*** ter 8 GB de RAM ou mais para a implementação.
 
 # Passos da implementação
 
@@ -113,7 +114,7 @@ docker-compose -f docker-compose.yaml --compatibility up -d && docker cp bot01/d
 > ***Obs.:*** O Driver JDBC que será utilizado no Apache Nifi será enviado para o contêiner através do comando 'docker cp...', não sendo a melhor maneira, mas sim a mais prática.
 
 
-####  Passo 7 -  Configurações Finais - Apache Nifi
+#### Passo 7 -  Configurações Finais - Apache Nifi
 
 Para configurar o fluxo do Apache Nifi que captura as interações dos usuários com o bot e, em seguida, grava no banco de dados, os seguintes passos devem ser executados:
 
@@ -138,17 +139,22 @@ Para configurar o fluxo do Apache Nifi que captura as interações dos usuários
 ![Flow Apache Nifi Parte 2](bot01/deploy/flow-apache-nifi-parte2.png)
 
 
-####  Passo 8 -  Down dos Serviços via Docker-Compose
+# Resultado da Implementação
+
+O bot foi implementado com 5 comandos, cada um com 2 possíveis respostas. Além disso, ele é capaz de interpretar o significado das interações, identificando se é uma saudação ou uma pergunta. Para essa funcionalidade, estamos utilizando a API da ***OpenAI (ChatGPT)***. Para evitar respostas repetitivas, todas as interações são armazenadas no ***Redis*** por um período de 24 horas.
+
+![Interação bot](bot01/deploy/interacao-bot.png)
+
+Os comandos são customizáveis e é possível adicionar novos, além de expandir a interpretação das interações para outras possibilidades.
+
+
+#### Down dos Serviços via Docker-Compose
 
 ```bash
 docker-compose -f docker-compose.yaml --compatibility down
 ```
 
 ![Down dos Serviços via Docker-Compose](bot01/deploy/servicos-docker-compose-down.png)
-
-# Resultado da Implementação
-
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # Considerações Finais
 
