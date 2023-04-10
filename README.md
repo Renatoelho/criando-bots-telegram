@@ -1,5 +1,5 @@
 
-# Fluxo de Desenvolvimento - Bot Telegram
+# Bot Telegram
 
 ![Fluxo de Desenvolvimento - Bot Telegram](bot01/deploy/fluxo-bot-telegram.png)
 
@@ -56,7 +56,7 @@
 
 #### Passo 3 - Atualize o arquivo de parâmetros
 
-Acesse o arquivo ***'.env'*** e atualize os Tokens recem criados.
+Acesse o arquivo ***'.env'*** e atualize com os Tokens criados.
 
 ```bash
 TOKEN_TELEGRAM=<Seu Token do Bot Telegram>
