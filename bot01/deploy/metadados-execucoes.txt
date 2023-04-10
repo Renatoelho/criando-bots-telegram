@@ -1,0 +1,7 @@
+
+code_erro   desrição
+
+1000    Erro na execução da aplicação Bot Telegram
+1001    Erro na utilização da API OpenAI (ChatGPT)
+1002    Erro na verificação da última interação do usuário (Redis)
+1003    Erro na gravação da última interação do usuário (Redis)

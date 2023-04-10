@@ -1,0 +1,66 @@
+# Imagem de origem
+FROM ubuntu:20.04
+
+# Define o bash padrão para execução dos comandos
+SHELL ["/bin/bash", "-c"]
+
+# Cria o usuário, senha e diretório para aplicação
+RUN useradd -ms /bin/bash bot -G sudo && \
+  passwd -d  bot && \
+  mkdir -p /home/bot/app/interacoes
+
+# Seleciona a pasta para ser utilizada nos comandos seguintes
+WORKDIR /home/bot
+
+# Atualiza o repositório APT, Instala o Python3.8, VENV, Nano, systemctl e etc...
+RUN apt update && \
+  apt install python3.8 \
+  python3.8-venv \
+  systemctl \
+  nano \
+  zip \
+  unzip \
+  tzdata \
+  sudo -y 
+
+# Cria o link apontando para o Python3.8 e adiciona ao .bashrc o interpretador do Python3
+RUN ln -sf /usr/bin/python3.8 /usr/bin/python3 && \
+  echo "export PATH=$PATH:/usr/bin/python3" >> \
+  /home/bot/.bashrc && \
+  source /home/bot/.bashrc
+
+# Seleciona a pasta para ser utilizada nos comandos seguintes
+WORKDIR /home/bot/app
+
+# Cópia dos arquivos da aplicação
+COPY app/ .
+
+# Cópia os arquivos para criar os serviços
+ADD deploy/bot.service /etc/systemd/system/
+
+# Configurando os serviços da aplicação
+RUN systemctl daemon-reload && \
+  systemctl enable bot.service
+
+# Atribuindo permissões para o usuário do diretório da aplicação
+RUN chown -R bot:bot /home/bot/app 
+
+# Atribui o usuário da Aplicação para os comandos seguintes
+USER bot
+
+# Configurando o Python para aplicação
+RUN python3 -m venv /home/bot/.virtualenvs && \
+  source /home/bot/.virtualenvs/bin/activate && \
+  pip install -U pip setuptools wheel && \
+  pip install -r requirements.txt
+
+# Variáveis de ambiente do servidor - Bot Professor
+ENV PYTHON_ENV="/home/bot/app/.env"
+ENV PYTHONPATH="/home/bot/app"
+ENV TZ="America/Sao_Paulo"
+
+# porta de acesso a aplicação
+EXPOSE 80 443
+
+# Start da aplicação no servidor
+ENTRYPOINT systemctl start bot.service

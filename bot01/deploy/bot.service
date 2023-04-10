@@ -1,0 +1,14 @@
+[Unit]
+Description=Projeto Bot Professor
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/home/bot/app/
+User=bot
+ExecStart=/bin/bash -c 'cd /home/bot/app && ./app.py'
+
+[Install]
+WantedBy=multi-user.target
+

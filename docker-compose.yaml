@@ -1,0 +1,83 @@
+version: "3.3"
+
+services:
+  bot-redis:
+    image: redis:7.0.10
+    container_name: bot-redis
+    ports:
+      - "6379:6379"
+    deploy:
+      resources:
+        limits:
+          memory: 256MB
+    restart: always
+    networks:
+      - bot-network-app
+  bot-mysql:
+    environment:
+      MYSQL_ROOT_PASSWORD: f4d5wdl8s54d
+      MYSQL_DATABASE: db_bots_telegram
+    volumes:
+      - bot-dados-mysql:/var/lib/mysql:rw
+    image: mysql:5.7.40
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    container_name: bot-mysql
+    ports:
+      - "3306:3306"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    restart: always
+    networks:
+      - bot-network-app
+  bot-nifi:
+    depends_on:
+      - bot-mysql
+    links:
+      - bot-mysql
+    environment:
+      SINGLE_USER_CREDENTIALS_USERNAME: bot_telegram
+      SINGLE_USER_CREDENTIALS_PASSWORD: HGdbvfv8744ghbdhgdv7895agqERAodh
+    volumes:
+      - bot-dados-telebot:/home/nifi/dados:rw
+    image: apache/nifi:1.19.0
+    container_name: bot-nifi
+    ports:
+      - "8443:8443"
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+    restart: on-failure
+    networks:
+      - bot-network-app
+  bot-app:
+    depends_on:
+      - bot-nifi
+      - bot-mysql
+      - bot-redis
+    volumes:
+      - bot-dados-telebot:/home/bot/app/interacoes:rw
+    build: 
+      dockerfile: ./bot01/dockerfile
+      context: .
+    image: bot-app:0.0.1
+    container_name: bot-app
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    restart: always
+    networks:
+      - bot-network-app
+
+networks:
+  bot-network-app:
+    driver: bridge
+
+volumes:
+  bot-dados-telebot:
+    external: true
+  bot-dados-mysql:
+    external: true
