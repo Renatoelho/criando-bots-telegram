@@ -22,7 +22,7 @@
 
 - Redis 7.0.10
 
-> ***Importante*** ter 8 GB de RAM ou mais para a implementação.
+> ***Obs.:*** Importante ter 8 GB de RAM ou mais para a implementação.
 
 # Passos da implementação
 
@@ -59,7 +59,7 @@
 
 Acesse o arquivo ***'.env'*** e atualize com os Tokens criados.
 
-```bash
+```text
 TOKEN_TELEGRAM=<Seu Token do Bot Telegram>
 TOKEN_CHATGPT3=<Seu Token do ChatGPT>
 ```
