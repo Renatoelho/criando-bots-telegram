@@ -8,19 +8,19 @@
 
 # Requisitos para implementação
 
-- Ubuntu 20.04
+- Ubuntu 20.04 (Host)
 
-- Docker 23.0.3
+- Docker 23.0.3 (Host)
 
-- Docker-Compose 1.25.0
+- Docker-Compose 1.25.0 (Host)
 
-- Python 3.8 ou superior
+- Python 3.8 ou superior (contêiner)
 
-- Apache Nifi 1.19.0
+- Apache Nifi 1.19.0 (contêiner)
 
-- MySQL 5.7.40
+- MySQL 5.7.40 (contêiner)
 
-- Redis 7.0.10
+- Redis 7.0.10 (contêiner)
 
 > ***Obs.:*** Importante ter 8 GB de RAM ou mais para a implementação.
 
@@ -118,7 +118,7 @@ docker-compose -f docker-compose.yaml --compatibility up -d && docker cp bot01/d
 
 Para configurar o fluxo do Apache Nifi que captura as interações dos usuários com o bot e, em seguida, grava no banco de dados, os seguintes passos devem ser executados:
 
-- Acesse via terminal o endereço: https://localhost:8443/nifi/
+- Acesse via navegador o endereço: https://localhost:8443/nifi/
 
 > ***Obs.:*** usuário e senha do Apache Nifi estão no arquivo ***'docke-compose.yaml'***
 
@@ -126,7 +126,7 @@ Para configurar o fluxo do Apache Nifi que captura as interações dos usuários
 
 > ***Obs.:*** arquivo ***'FLOW_CAPTURA_INTERACOES_BOT_TELEGRAM_....xml'***
 
-- Adicione a senha do MySQL no controle service existente nos processors ***'ExecuteSQL'***
+- Adicione a senha do MySQL no controle service: ***'Servidor MySQL - Central'***
 
 > ***Obs.:*** senha do MySQL está no arquivo ***'docke-compose.yaml'***
 
