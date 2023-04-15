@@ -14,7 +14,7 @@
 
 - Docker-Compose 1.25.0 (Host)
 
-- Git 2.25.1 ou superior (Host)
+- Git 2.25.1 ou superior (Host) 
 
 - Python 3.8 ou superior (contêiner)
 
