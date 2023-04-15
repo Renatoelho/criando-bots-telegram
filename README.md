@@ -14,6 +14,8 @@
 
 - Docker-Compose 1.25.0 (Host)
 
+- Git 2.25.1 ou superior (Host)
+
 - Python 3.8 ou superior (contêiner)
 
 - Apache Nifi 1.19.0 (contêiner)
@@ -22,9 +24,17 @@
 
 - Redis 7.0.10 (contêiner)
 
-> ***Obs.:*** Importante ter 8 GB de RAM ou mais para a implementação.
+> ***Obs.:*** Importante ter 8 GB de RAM ou mais para essa implementação.
 
 # Passos da implementação
+
+#### Passo 0 - Clonar o repositório do projeto para sua máquina
+
+```bash
+git clone https://github.com/Renatoelho/criando-bots-telegram.git "criando-bots-telegram"
+```
+
+***Obs.:*** Escolha um diretório em que você tenha permissões de leitura, escrita e execução completas.
 
 
 #### Passo 1 - Criando um bot no Telegram
@@ -89,11 +99,7 @@ docker volume create --name=bot-dados-mysql
 - Alterando as permissões de acesso ao diretório do volume 'bot-dados-telebot'
 
 ```bash
-sudo su
-```
-
-```bash
-chmod 766 /var/lib/docker/volumes/bot-dados-telebot/_data
+sudo chmod 766 /var/lib/docker/volumes/bot-dados-telebot/_data
 ```
 
 > ***Obs.:*** Como o volume 'bot-dados-telebot' será compartilhado entre o contêiner com aplicação em Python e o contêiner com o Apache Nifi, foi necessário alterar as permissões de leitura e escrita para que ambos tenham acesso adequado.
